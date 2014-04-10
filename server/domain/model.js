@@ -11,3 +11,17 @@ exports.User = mongoose.model("User",new Schema({
     lastLoginDate: Date,
     isAdmin: Boolean
 }));
+
+exports.Grill = mongoose.model("Grill", new Schema({
+	_id: String,
+	matrix: [String],
+	definitions: [String],
+	syllables: [String],
+	phraseCol1: Number,
+	phraseCol2: Number
+}));
+
+exports.Word = mongoose.model("Word", new Schema({
+	_id: Number,
+	text: String
+}));

@@ -1,5 +1,6 @@
 var rest = require("./rest");
 var model = require("../domain/model.js");
+var grillService = require("./grill");
 
 /**
  * Filtro para detectar qeu haya un usuario logueado
@@ -28,56 +29,21 @@ function userFilter(req,res,next){
 }
 
 var services = [{
-    name: "Brewery",
+    name: "Grill",
     customId: true,
     security: {save: [userFilter]},
     process: function(rest) {
 
     }
 },{
-    name: "Rating",
-    security: {findAll:[userFilter]},
-    process: function(rest) {
-
-    }
-},{
-    name: "Cellar",
-    security: {
-        save:[userFilter],
-        findAll:[userFilter]
-    },
-    process: function(rest) {
-        
-    }
-},{
     name: "User"
-},{
-    name: "Style",
-    customId: true,
-    process: function(rest) {
-        
-    }
-},{
-    name: "StyleByLabel",
-    customId: true
-},{
-    name: "Category",
-    customId: true
-},{
-    name: "Cellar",
-    customId: true
-},{
-    name: "Beer",
-    customId: true,
-    security: {save:[userFilter]},
-    process: function(rest) {
-        
-    }
 }];
 
 exports.createRoutes = function(app) {
     //Special for login
     app.get('/api/login/by_google/:google_id', require("./user").getForLogin);
+
+    app.get('/api/newgrill', grillService.generateGrill);
 
     for( var i=0; i<services.length; i++ ) {
         if ( services[i].process ) {

@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 		    	script: 'server/server.js',
 		    	options: {
 		    		env: {
-		    			'MONGOLAB_URI': 'localhost:27017/dbname'
+		    			'MONGOLAB_URI': 'localhost:27017/claringrilla'
 		    		},
 		    		watch: ['server']
 		    	}

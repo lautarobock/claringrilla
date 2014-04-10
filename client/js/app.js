@@ -3,6 +3,7 @@ define("app", [
     "menu/menu",
     "resources",
     "util/directives",
+    "grill/grill",
     "gplus"
     ], function(locale, menu, resources, gplus, beer, rating) {
 
@@ -14,6 +15,7 @@ define("app", [
         'menu',
         'resources',
         'directives',
+        'grill',
         'gplus']);
 
     //Esto esta aca porque este .js se carga en forma asincronica
@@ -80,7 +82,9 @@ define("app", [
         $translateProvider.preferredLanguage('es');
 
         //Configure Routes
-        // $routeProvider.otherwise({redirectTo: '/beer'});
+        $routeProvider.
+            when('/grill', {templateUrl: 'grill/grill.html',   controller: 'GrillController'}).
+            otherwise({redirectTo: '/grill'});
 
     }]);
 

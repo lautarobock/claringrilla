@@ -1,0 +1,18 @@
+<!-- <table border="1" style="border-collapse: collapse;"> -->
+<div class="row">
+	<div class="col-md-6">
+		<table class="table table-striped table-bordered table-condensed">
+			<tr ng-repeat="row in matrix">
+				<th style="width:2em">{{$index+1}}</th>
+				<td style="text-align:center;width:2em" ng-repeat="letter in row track by $index">
+					<span ng-if="grill.phraseCol1 == $index || grill.phraseCol2 == $index">
+						<strong>{{letter}}</strong>
+					</span>
+					<span ng-if="!(grill.phraseCol1 == $index || grill.phraseCol2 == $index)">
+						<input maxlength="1" type="text" class="form-control input-sm" ng-model="letter"/>
+					</span>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

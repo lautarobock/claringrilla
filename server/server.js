@@ -34,6 +34,30 @@ require("mongoose").connect(process.env.MONGOLAB_URI);
 
 require("./routes/config").createRoutes(app);
 
+// var fs = require('fs'),
+//     readline = require('readline');
+
+// var rd = readline.createInterface({
+//     input: fs.createReadStream('etc/lemario-espanol-2002-10-25_utf8.txt',{
+//     	encoding: 'utf8'
+//     }),
+//     output: process.stdout,
+//     terminal: false
+// });
+
+// var i = 0;
+
+// rd.on('line', function(line) {
+// 	if ( line.length > 5 ) {
+// 		var word = require("./domain/model").Word({
+// 			_id:i++,
+// 			text:line
+// 		})
+// 		word.save();
+// 	    console.log(line);	
+// 	}
+// });
+
 
 var server = http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));
