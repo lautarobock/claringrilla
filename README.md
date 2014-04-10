@@ -1,4 +1,4 @@
-base-web-project
-================
+claringrilla
+============
 
-Base para proyecto web basado en NodeJS y AngularJS.
+Creacion de claringrillas en forma automatica de distintos sources
