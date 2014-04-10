@@ -1,0 +1,38 @@
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container" style="width: 90%;">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-3" ng-click="toogleMenu()">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand visible-xs" href="#">Title (Mobile)</a>
+      </div>
+      <nav class="hidden-xs">
+          <ul class="nav navbar-nav">
+              <a href="#" role="button" class="navbar-brand">
+                  Title (Desktop)
+              </a>
+              <li><sign-in></sign-in></li>
+              <li><log-in></log-in></li>
+          </ul>
+      </nav>
+      <nav class="visible-xs">
+          <ul class="nav navbar-nav"  collapse="isCollapsed">
+              <li><sign-in></sign-in></li>
+              <li><log-in></log-in></li>
+              <li class="dropdown" secure>
+                  <a href="" role="button" class="dropdown-toggle">
+                      Dropdown <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li><a href="#">Item</a></li>
+                  </ul>
+              </li>
+          </ul>
+      </nav>
+    </div>
+  </div>
+</header>
