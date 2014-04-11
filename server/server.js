@@ -34,6 +34,8 @@ require("mongoose").connect(process.env.MONGOLAB_URI);
 
 require("./routes/config").createRoutes(app);
 
+var model = require("./domain/model");
+//Parse Words
 // var fs = require('fs'),
 //     readline = require('readline');
 
@@ -57,6 +59,56 @@ require("./routes/config").createRoutes(app);
 // 	    console.log(line);	
 // 	}
 // });
+
+//Parse frecuency
+
+var fs = require('fs'),
+    readline = require('readline');
+
+var rd = readline.createInterface({
+    input: fs.createReadStream('etc/CREA_total_utf.TXT',{
+    	encoding: 'utf8'
+    }),
+    output: process.stdout,
+    terminal: false
+});
+
+var i=0;
+rd.on('line', function(line) {
+	if ( line.length > 5 ) {
+		// var word = require("./domain/model").Word({
+		// 	_id:i++,
+		// 	text:line
+		// })
+		// word.save();
+		var record = line.split('\t');
+	    if ( i < 5 ) {
+		    model.Word.find({text:record[1].trim()}).exec(function(err, word) {
+		    	if ( !err && word.length != 0 ) {
+		    		i++;
+		    		console.log(record[1], parseFloat(record[3]));
+		    		word[0].frecuency = parseFloat(record[3]);
+		    		console.log("pre",word[0]);
+		    		// word[0].save(function(err) {
+		    		// 	console.log("save",err);
+		    		// });
+		    		// model.Word.update({_id:word[0]._id}, {$set: {frecuency: parseFloat(record[3])}}, function(err) {
+		    		// 	console.log("save",err);
+		    		// });
+		    		var id = word[0]._id;
+		    		delete word[0]._id;
+		    		model.Word.findByIdAndUpdate(id,{$set: {frecuency: parseFloat(record[3])}}).exec(function(err,results) {
+		                console.log("save",err);
+		            });
+		    	} else {
+		    		console.log(err, word);
+		    	}
+		    	
+		    });
+
+	    }
+	}
+});
 
 
 var server = http.createServer(app).listen(app.get('port'), function(){

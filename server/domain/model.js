@@ -23,5 +23,6 @@ exports.Grill = mongoose.model("Grill", new Schema({
 
 exports.Word = mongoose.model("Word", new Schema({
 	_id: Number,
-	text: String
+	text: String,
+	frecuency: Number
 }));
