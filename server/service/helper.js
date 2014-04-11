@@ -40,10 +40,28 @@ exports.PhraseHelper = function(phrase, col1, col2) {
 
 };
 
+exports.getRandomInt = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 exports.getRndWord = function(regexp, excludes, callback) {
 	model.Word.find({text:regexp}).exec(function(err, result) {
-		callback(result[0].text);
+		//tengo que armar mi array para el "sorteo"
+		var choices = exports.buildChoices(result);
+		var idx = exports.getRandomInt(0,choices.length-1);
+		callback(choices[idx]);
 	});
+}
+
+exports.buildChoices = function(result) {
+	var choices = [];
+	for( var i=0; i<result.length; i++ ) {
+		var base1Frec = Math.round(result[i].frecuency)+1;
+		for( var j=0; j<base1Frec; j++ ) {
+			choices.push(result[i].text);
+		}
+	}
+	return choices;
 }
 
 
@@ -69,7 +87,7 @@ exports.generateGrill = function(mainCb) {
 				definitions: ["def para soda","def para egipcio","def para misogino","def para infractor"],
 				syllables: ["so","da","e","gip","cio","mi", "so", "gi", "no","in","frac","tor","lau","ta","ro"],
 				phraseCol1: 2,
-				phraseCol2: 4
+				phraseCol2: 5
 			}
 			mainCb(grill);
 		}

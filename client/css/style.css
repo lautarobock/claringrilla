@@ -108,3 +108,7 @@
   stroke: #000;
   shape-rendering: crispEdges;
 }
+
+.bold-phrase {
+	background: #666666 !important;
+}
