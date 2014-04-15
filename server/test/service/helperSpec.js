@@ -57,7 +57,7 @@ describe("grill.js", function() {
             }
         });
         helper.generateGrill(function(grill) {
-            console.log("Words", grill.matrix);
+            // console.log("Words", grill.matrix);
             expect(grill.matrix).toBeDefined();
             done();
         });
