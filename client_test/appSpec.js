@@ -3,7 +3,7 @@ define(["app"], function() {
 	describe("app", function() {
 
 		if("Should pass", function() {
-			expect(true).toBe(true);
+			// expect(true).toBe(true);
 		});
 		// beforeEach(angular.mock.module('app'));
 
