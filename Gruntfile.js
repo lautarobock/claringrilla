@@ -92,5 +92,5 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('run', ['nodemon']);
 
-	grunt.registerTask('test', ['karma:cont', 'shell:runTest']);
+	grunt.registerTask('test', ['shell:runTest']);
 };

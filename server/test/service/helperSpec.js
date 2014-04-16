@@ -72,7 +72,7 @@ describe("grill.js", function() {
         helper.generateGrill(function(grill) {
             // console.log("Words", grill.matrix);
             // console.log("definitions", grill.definitions);
-            console.log("syllables", grill.syllables);
+            // console.log("syllables", grill.syllables);
 
             expect(grill.matrix).toBeDefined();
             expect(grill.matrix.length).toBe(13);
