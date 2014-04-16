@@ -1,4 +1,5 @@
 var http = require('http');
+var dictionary = require("../../service/dictionary");
 
 describe("dictionary.js", function() {
 
@@ -20,10 +21,12 @@ describe("dictionary.js", function() {
 	        });
 	        iRes.on('end', function() {
 	            var object = eval("("+msg+")");
+	            var def = object.query.pages['7665'].revisions[0]['*'];
+	            
+	            var first = def.substr(def.indexOf(";1:")+4,def.indexOf('\n')-8);
+	            // console.log("definition",first);
 
-	            console.log("definition",object.query.pages['7665'].revisions[0]['*'].substr(0,200));
-
-	            expect(object).toBeDefined();
+	            expect(first).toBe('{{ucf|edificación}} destinada a [[vivienda]].');
 
 	            done();
 	        });
@@ -34,6 +37,28 @@ describe("dictionary.js", function() {
 	    });
 
 	    iReq.end();
+
+		
+	});
+
+	it("Should retrive a definition (2)", function(done) {
+
+		dictionary.define("casa", function(err, definition) {
+			
+			expect(definition).toBe('{{ucf|edificación}} destinada a [[vivienda]]. ');
+
+	        dictionary.define("herbívoro", function(err, definition) {
+				
+				expect(definition).toBe('Que se alimenta de [[vegetal]]es de cualquier tipo');
+
+				// dictionary.define("coco", function(err, definition) {
+				
+				// 	expect(definition).toBe('{{árbol}}: (\'\'Cocos nucifera\'\') [[palmera|Palmera]] [[pantropical]], única de su género, que crece en [[hábitat]]s [[arenoso]]s y [[salino]]s. Alcanza los 30 m de altura, con [[hoja]]s pinnadas de hasta 6 m de largo. Se aprovecha extensamente, utilizándose la [[fibra]] de sus hojas para fuertes [[tejido]]s y sobre todo la [[pulpa]] de su [[fruto]], una [[drupa]] fibrosa, en alimentación');
+
+					done();	        	
+		  //       });       	
+	        });
+		});
 
 		
 	});
