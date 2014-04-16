@@ -1,4 +1,5 @@
 var model = require("../domain/model");
+var dictionary = require("./dictionary");
 
 exports.beautifyPhrase = function (phrase) {
 	return phrase.replace(/[^a-z]/ig, '').toLowerCase();
@@ -73,19 +74,45 @@ exports.generateGrill = function(mainCb) {
 
 	var words = [];
 
+	var definitions = [];
+
+	var syllables = [];
+
 	var i=0;
 
-	var callback = function(word) {
+	var callback = function(word, definition) {
+
+		if ( !definition ) {
+			dictionary.define(word, function(err, newDef) {
+				if ( !err ) {
+					callback(word, newDef);
+				} else {
+					var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
+					exports.getRndWord(regExp, words, callback);
+				}
+			});
+			return;
+		}
+
+		i++;
+
 		words.push(word);
+		definitions.push(definition);
 
 		if ( i<wordsCount) {
-			var regExp = new RegExp(phraseHelper.buildRegExpForRow(i++));
+			var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
 			exports.getRndWord(regExp, words, callback);	
 		} else {
+			for( var k = 0; k<words.length; k++ ) {
+				var sils = dictionary.splitSyllables(words[k]);
+				for( var l = 0; l<sils.length; l++ ) {
+					syllables.push(sils[l]);
+				}
+			}
 			var grill = {
 				matrix: words,
-				definitions: ["def para soda","def para egipcio","def para misogino","def para infractor"],
-				syllables: ["so","da","e","gip","cio","mi", "so", "gi", "no","in","frac","tor","lau","ta","ro"],
+				definitions: definitions,
+				syllables: shuffle(syllables),
 				phraseCol1: 2,
 				phraseCol2: 5
 			}
@@ -93,7 +120,29 @@ exports.generateGrill = function(mainCb) {
 		}
 	}
 
-	var regExp = new RegExp(phraseHelper.buildRegExpForRow(i++));
+	var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
 	exports.getRndWord(regExp, words, callback);
 
+}
+
+function shuffle(array) {
+  var currentIndex = array.length
+    , temporaryValue
+    , randomIndex
+    ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }

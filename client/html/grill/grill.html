@@ -17,6 +17,7 @@
 	</div>
 </div> -->
 <div class="row">
+	<!-- Table with results -->
 	<div class="col-md-6">
 		<table class="table table-striped table-bordered table-condensed">
 			<tr ng-repeat="row in grill.matrix">
@@ -32,4 +33,19 @@
 			</tr>
 		</table>
 	</div>
+	<div class="col-md-6">
+		<table class="table table-striped table-bordered table-condensed">
+			<tr ng-repeat="definition in grill.definitions">
+				<th style="width:2em">{{$index+1}}</th>
+				<td>
+					{{definition}}
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<span ng-repeat="sil in grill.syllables track by $index">
+		{{sil}} - 
+	</span>
 </div>
