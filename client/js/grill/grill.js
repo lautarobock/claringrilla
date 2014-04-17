@@ -9,11 +9,11 @@ define([], function() {
 			angular.forEach(grill.matrix, function(word) {
 				var row = [];
 				for ( var i=0; i<word.length; i++ ) {
-					if ( grill.phraseCol1 == i || grill.phraseCol2 == i ) {
-						row.push(word[i]);
-					} else {
+					// if ( grill.phraseCol1 == i || grill.phraseCol2 == i ) {
+						// row.push(word[i]);
+					// } else {
 						row.push("");
-					}
+					// }
 				}
 				$scope.matrix.push(row);
 

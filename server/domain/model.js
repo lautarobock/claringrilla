@@ -18,7 +18,9 @@ exports.Grill = mongoose.model("Grill", new Schema({
 	definitions: [String],
 	syllables: [String],
 	phraseCol1: Number,
-	phraseCol2: Number
+	phraseCol2: Number,
+	phrase: String,
+	author: String
 }));
 
 exports.Word = mongoose.model("Word", new Schema({

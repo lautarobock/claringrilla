@@ -74,11 +74,14 @@ describe("grill.js", function() {
             // console.log("definitions", grill.definitions);
             // console.log("syllables", grill.syllables);
 
+            expect(grill.phrase).toBeDefined();
+            expect(grill.author).toBeDefined();
+
             expect(grill.matrix).toBeDefined();
-            expect(grill.matrix.length).toBe(13);
+            // expect(grill.matrix.length).toBe(13);
 
             expect(grill.definitions).toBeDefined();
-            expect(grill.definitions.length).toBe(13);
+            // expect(grill.definitions.length).toBe(13);
 
             expect(grill.syllables).toBeDefined();
             // expect(grill.definitions.length).toBe(13);
@@ -110,6 +113,25 @@ describe("grill.js", function() {
         helper.getRndWord(regexp, [], function(word) {
             // console.log("Word", word);
             expect(word).toBe("Palabra 2");
+            done();
+        });
+    });
+
+    it("Should generate a random word but not found", function(done) {
+        var i = 0;
+        spyOn(model.Word, 'find').andCallFake(function() {
+            return {
+                exec: function(cb) {
+                    cb(null, []);
+                }
+            }
+        });
+        spyOn(helper,"getRandomInt").andReturn(3);
+
+        var regexp = new RegExp("^..l..r");
+        helper.getRndWord(regexp, [], function(word) {
+            // console.log("Word", word);
+            expect(word).toBe(null);
             done();
         });
     });

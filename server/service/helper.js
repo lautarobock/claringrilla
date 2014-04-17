@@ -1,8 +1,16 @@
 var model = require("../domain/model");
 var dictionary = require("./dictionary");
+var phrase = require("./phrase");
 
 exports.beautifyPhrase = function (phrase) {
-	return phrase.replace(/[^a-z]/ig, '').toLowerCase();
+	phrase = phrase.toLowerCase();
+	phrase = phrase.replace('á','a');
+	phrase = phrase.replace('é','e');
+	phrase = phrase.replace('í','i');
+	phrase = phrase.replace('ó','o');
+	phrase = phrase.replace('ú','u');
+	phrase = phrase.replace(/[^a-zñ]/ig, '');
+	return phrase;
 };
 
 /**
@@ -48,9 +56,13 @@ exports.getRandomInt = function(min, max) {
 exports.getRndWord = function(regexp, excludes, callback) {
 	model.Word.find({text:regexp}).exec(function(err, result) {
 		//tengo que armar mi array para el "sorteo"
-		var choices = exports.buildChoices(result);
-		var idx = exports.getRandomInt(0,choices.length-1);
-		callback(choices[idx]);
+		if ( result.length == 0 ) {
+			callback(null);
+		} else {
+			var choices = exports.buildChoices(result);
+			var idx = exports.getRandomInt(0,choices.length-1);
+			callback(choices[idx]);	
+		}
 	});
 }
 
@@ -68,67 +80,96 @@ exports.buildChoices = function(result) {
 
 
 exports.generateGrill = function(mainCb) {
-	var phrase = "En esta comunidad, ¡yo soy la leys!";
-	var col1 = 1;
-	var col2 = 3;
-	phraseHelper = new exports.PhraseHelper(phrase,col1,col2);
+	// var phrase = "En esta comunidad, ¡yo soy la leys!";
+	
 
-	var wordsCount = phraseHelper.availableWords();
+	var onPhrase = function(phrases) {
+		var col1 = 2;
+		var col2 = 5;
+		phraseHelper = new exports.PhraseHelper(phrases.quotes[0],col1,col2);
 
-	var words = [];
+		var wordsCount = phraseHelper.availableWords();
 
-	var definitions = [];
+		var words = [];
 
-	var syllables = [];
+		var definitions = [];
 
-	var i=0;
+		var syllables = [];
 
-	var callback = function(word, definition) {
+		var excludes = [];
 
-		if ( !definition ) {
-			dictionary.define(word, function(err, newDef) {
-				if ( !err ) {
-					callback(word, newDef);
-				} else {
-					var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
-					exports.getRndWord(regExp, words, callback);
+		var i=0;
+
+		var callback = function(word, definition) {
+
+			if ( !word || excludes.indexOf(word) != -1 ) {
+				phrase.randomList(function(phrases) {
+					onPhrase(phrases);
+				});
+				return;
+			} else if ( !definition ) {
+				console.log("Busco definicion para:", word);
+				dictionary.define(word, function(err, newDef) {
+					if ( !err ) {
+						console.log("Definicion:", newDef);
+						callback(word, newDef);
+					} else {
+						excludes.push(word);
+						var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
+						exports.getRndWord(regExp, words, callback);
+					}
+				});
+				return;
+			}
+
+			i++;
+
+			// console.log("add word", word);
+			words.push(word);
+			definitions.push(definition);
+
+			if ( i<wordsCount) {
+				var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
+				// console.log("regexp",regExp);
+				exports.getRndWord(regExp, words, callback);	
+			} else {
+
+				for( var k = 0; k<words.length; k++ ) {
+					// console.log("word", words[k]);
+					var sils = dictionary.splitSyllables(words[k]);
+					for( var l = 0; l<sils.length; l++ ) {
+						syllables.push(sils[l]);
+					}
 				}
-			});
-			return;
+				var grill = {
+					matrix: words,
+					definitions: definitions,
+					syllables: shuffle(syllables),
+					phraseCol1: col1,
+					phraseCol2: col2,
+					phrase: phrases.quotes[0],
+					author: phrases.author
+
+				}
+				mainCb(grill);
+			}
 		}
 
-		i++;
-
-		console.log("add word", word);
-		words.push(word);
-		definitions.push(definition);
-
-		if ( i<wordsCount) {
-			var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
-			console.log("regexp",regExp);
-			exports.getRndWord(regExp, words, callback);	
-		} else {
-
-			for( var k = 0; k<words.length; k++ ) {
-				// console.log("word", words[k]);
-				var sils = dictionary.splitSyllables(words[k]);
-				for( var l = 0; l<sils.length; l++ ) {
-					syllables.push(sils[l]);
-				}
-			}
-			var grill = {
-				matrix: words,
-				definitions: definitions,
-				syllables: shuffle(syllables),
-				phraseCol1: col1,
-				phraseCol2: col2
-			}
-			mainCb(grill);
-		}
+		var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
+		console.log("regexp", regExp);
+		exports.getRndWord(regExp, words, callback);
 	}
 
-	var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
-	exports.getRndWord(regExp, words, callback);
+	// var phrases = {
+	// 	quotes: ["La vida es sueño, y los sueños, sueños son"],
+	// 	author: "yo"
+	// };
+	phrase.randomList(function(phrases) {
+		console.log("Frase", phrases.quotes[0]);
+		console.log("Auhor", phrases.author);
+		onPhrase(phrases);
+	})
+
 
 }
 

@@ -4,13 +4,8 @@
 		<table class="table table-striped table-bordered table-condensed">
 			<tr ng-repeat="row in matrix">
 				<th style="width:2em">{{$index+1}}</th>
-				<td style="text-align:center;width:2em" ng-repeat="letter in row track by $index">
-					<span ng-if="grill.phraseCol1 == $index || grill.phraseCol2 == $index">
-						<strong>{{letter}}</strong>
-					</span>
-					<span ng-if="!(grill.phraseCol1 == $index || grill.phraseCol2 == $index)">
-						<input maxlength="1" type="text" class="form-control input-sm" ng-model="letter"/>
-					</span>
+				<td style="text-align:center;width:2em" ng-repeat="letter in row track by $index" ng-class="{'bold-phrase':isPhrase($index)}"><span>
+					<input maxlength="1" type="text" class="form-control input-sm" ng-model="letter"/>
 				</td>
 			</tr>
 		</table>
@@ -27,7 +22,8 @@
 	</div>
 </div>
 <!-- Table with results -->
-<div class="row hide" >
+<button ng-init="showResult=false" type="button" class="btn btn-default" ng-click="showResult=!showResult">Resultado</button>
+<div class="row" ng-show="showResult">
 	<div class="col-md-6">
 		<table class="table table-striped table-bordered table-condensed">
 			<tr ng-repeat="row in grill.matrix">
@@ -52,7 +48,9 @@
 	</div> -->
 </div>
 <div class="row">
-	<span ng-repeat="sil in grill.syllables track by $index">
-		{{sil}} - 
+	<span ng-init="used=false" ng-repeat="sil in grill.syllables track by $index">
+		<span ng-click="used=!used" ng-hide="used" style="cursor: pointer;">{{sil}}</span>
+		<span ng-click="used=!used" ng-show="used" style="cursor: pointer;text-decoration: line-through">{{sil}}</span>
+		 - 
 	</span>
 </div>

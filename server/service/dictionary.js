@@ -38,14 +38,26 @@ exports.define = function(word, callback) {
             var def = page.revisions[0]['*'];
 
             //Solo la primera definicion
-            var first = def.match(";1.*:(.*)")[1];
-
-            //le saco un espacio que siempre hay
-            first = first.substr(1);
             
-            // console.log(word, first);            
+            var defs = def.match(";1.*:(.*)");
+            
+            if ( defs ) {
+                // console.log("DEFS", defs);
+                var first = defs[1];
 
-            callback(null, first);
+                //le saco un espacio que siempre hay
+                first = first.substr(1);
+                
+                // console.log(word, first);            
+
+                callback(null, first);    
+            } else {
+                callback({
+                    code: "NOT_FOUND",
+                    message: "No se ha encontrado la definicion"
+                })
+            }
+            
         });
     });
 
