@@ -3,36 +3,36 @@ var helper = require("../../service/helper");
 
 describe("phrase.js", function() {
 
-	it("Should retrive a random page ID", function(done) {
+	// it("Should retrive a random page ID", function(done) {
 
-		phrase.randomPage(function(err, pageID) {
-			// console.log("pageID",pageID);
+	// 	phrase.randomPage(function(err, pageID) {
+	// 		// console.log("pageID",pageID);
 
-			expect(pageID).toBeDefined();
+	// 		expect(pageID).toBeDefined();
 
-			done();
-		});
+	// 		done();
+	// 	});
 		
-	});
+	// });
 
 
-	it("Should retrive a phrases of einstein", function(done) {
+	// it("Should retrive a phrases of einstein", function(done) {
 
-		phrase.listFrom("86",function(err, phrases) {
+	// 	phrase.listFrom("86",function(err, phrases) {
 			
-			// console.log("length: ",phrases.length);
-			// console.log("phrases: ",phrases);
-			expect(phrases.quotes.length).toBe(8);
-			expect(phrases.author).toBe("Albert Einstein");
+	// 		// console.log("length: ",phrases.length);
+	// 		// console.log("phrases: ",phrases);
+	// 		expect(phrases.quotes.length).toBe(8);
+	// 		expect(phrases.author).toBe("Albert Einstein");
 			
-			expect(phrases).toBeDefined();
-			expect(phrases.quotes).toBeDefined();
+	// 		expect(phrases).toBeDefined();
+	// 		expect(phrases.quotes).toBeDefined();
 
 
-			done();
-		});
+	// 		done();
+	// 	});
 		
-	});
+	// });
 
 	// it("Should retrive a phrases of 99", function(done) {
 
