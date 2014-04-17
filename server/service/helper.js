@@ -55,9 +55,10 @@ exports.getRndWord = function(regexp, excludes, callback) {
 }
 
 exports.buildChoices = function(result) {
+	// console.log("buildChoices", result);
 	var choices = [];
 	for( var i=0; i<result.length; i++ ) {
-		var base1Frec = Math.round(result[i].frecuency)+1;
+		var base1Frec = Math.round(result[i].frecuency||0)+1;
 		for( var j=0; j<base1Frec; j++ ) {
 			choices.push(result[i].text);
 		}
@@ -68,7 +69,9 @@ exports.buildChoices = function(result) {
 
 exports.generateGrill = function(mainCb) {
 	var phrase = "En esta comunidad, ¡yo soy la leys!";
-	phraseHelper = new exports.PhraseHelper(phrase,2,5);
+	var col1 = 1;
+	var col2 = 3;
+	phraseHelper = new exports.PhraseHelper(phrase,col1,col2);
 
 	var wordsCount = phraseHelper.availableWords();
 
@@ -96,14 +99,18 @@ exports.generateGrill = function(mainCb) {
 
 		i++;
 
+		console.log("add word", word);
 		words.push(word);
 		definitions.push(definition);
 
 		if ( i<wordsCount) {
 			var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
+			console.log("regexp",regExp);
 			exports.getRndWord(regExp, words, callback);	
 		} else {
+
 			for( var k = 0; k<words.length; k++ ) {
+				// console.log("word", words[k]);
 				var sils = dictionary.splitSyllables(words[k]);
 				for( var l = 0; l<sils.length; l++ ) {
 					syllables.push(sils[l]);
@@ -113,8 +120,8 @@ exports.generateGrill = function(mainCb) {
 				matrix: words,
 				definitions: definitions,
 				syllables: shuffle(syllables),
-				phraseCol1: 2,
-				phraseCol2: 5
+				phraseCol1: col1,
+				phraseCol2: col2
 			}
 			mainCb(grill);
 		}
