@@ -26,6 +26,10 @@ define([], function() {
 		$scope.isPhrase = function($index) {
 			return $scope.grill.phraseCol1 == $index || $scope.grill.phraseCol2 == $index;
 		}
+
+		$scope.orderSil = function(obj) {
+			return obj;
+		};
 	});
 
 });
