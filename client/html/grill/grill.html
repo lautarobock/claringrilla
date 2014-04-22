@@ -1,40 +1,65 @@
 <!-- <table border="1" style="border-collapse: collapse;"> -->
+<div class="row" style="margin-bottom:2em">
+	<div class="col-md-12">
+		Una frase de: <strong>{{grill.author}}</strong>
+	</div>
+</div>
 <div class="row">
 	<div class="col-md-6">
 		<table class="table table-striped table-bordered table-condensed">
 			<tr ng-repeat="row in matrix">
 				<th style="width:2em">{{$index+1}}</th>
 				<td style="text-align:center;width:2em" ng-repeat="letter in row track by $index" ng-class="{'bold-phrase':isPhrase($index)}"><span>
-					<input maxlength="1" type="text" class="form-control input-sm" ng-model="letter"/>
+					<input maxlength="1" style="padding: 5px 5px;text-align: center;" type="text" class="form-control input-sm" ng-model="letter"/>
 				</td>
 			</tr>
 		</table>
 	</div>
 	<div class="col-md-6">
 		<table class="table table-striped table-bordered table-condensed">
-			<tr ng-repeat="definition in grill.definitions track by $index">
+			<tr ng-init="solved=false" ng-repeat="definition in grill.definitions track by $index">
 				<th style="width:2em">{{$index+1}}</th>
 				<td>
-					{{definition}}
+					<span ng-hide="solved" ng-click="solved=!solved" style="cursor: pointer;">{{definition}}</span>
+					<span ng-show="solved" ng-click="solved=!solved" style="cursor: pointer;background: yellow;">{{definition}}</span>
 				</td>
 			</tr>
 		</table>
 	</div>
 </div>
+
+<div class="row">
+	<div class="col-md-12">
+		<span ng-init="used=false" ng-repeat="sil in grill.syllables|orderBy:orderSil track by $index">
+			<span ng-click="used=!used" ng-hide="used" style="cursor: pointer;"><b>{{sil}}</b></span>
+			<span ng-click="used=!used" ng-show="used" style="cursor: pointer;text-decoration: line-through; border: 1px solid; padding: 1px;border-radius: 5px;background: yellow;">{{sil}}</span>
+			<span ng-hide="$last"> - </span>
+		</span>
+	</div>
+</div>
+
 <!-- Table with results -->
-<button ng-init="showResult=false" type="button" class="btn btn-default" ng-click="showResult=!showResult">Resultado</button>
-<div class="row" ng-show="showResult">
-	<div class="col-md-6">
-		<table class="table table-striped table-bordered table-condensed">
-			<tr ng-repeat="row in grill.matrix">
-				<th style="width:2em">{{$index+1}}</th>
-				<td style="text-align:center;width:2em" ng-repeat="letter in row track by $index" ng-class="{'bold-phrase':isPhrase($index)}">
-					<span>
-						<input maxlength="1" type="text" class="form-control input-sm" ng-model="letter"/>
-					</span>
-				</td>
-			</tr>
-		</table>
+<button style="margin-top: 2em;" ng-init="showResult=false" type="button" class="btn btn-danger" ng-click="showResult=!showResult">Ver Resultado</button>
+<div ng-show="showResult">
+	<div class="row" style="margin-bottom:2em;">
+		<div class="col-md-12">
+			Frase: "<i>{{grill.phrase}}</i>"
+			- <strong>{{grill.author}}</strong>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<table class="table table-striped table-bordered table-condensed">
+				<tr ng-repeat="row in grill.matrix">
+					<th style="width:2em">{{$index+1}}</th>
+					<td style="text-align:center;width:2em" ng-repeat="letter in row track by $index" ng-class="{'bold-phrase':isPhrase($index)}">
+						<span>
+							<input maxlength="1" type="text" class="form-control input-sm" ng-model="letter"/>
+						</span>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	<!-- <div class="col-md-6">
 		<table class="table table-striped table-bordered table-condensed">
@@ -46,11 +71,4 @@
 			</tr>
 		</table>
 	</div> -->
-</div>
-<div class="row">
-	<span ng-init="used=false" ng-repeat="sil in grill.syllables|orderBy:orderSil track by $index">
-		<span ng-click="used=!used" ng-hide="used" style="cursor: pointer;">{{sil}}</span>
-		<span ng-click="used=!used" ng-show="used" style="cursor: pointer;text-decoration: line-through">{{sil}}</span>
-		 - 
-	</span>
 </div>

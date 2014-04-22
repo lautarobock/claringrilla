@@ -54,7 +54,8 @@ exports.getRandomInt = function(min, max) {
 }
 
 exports.getRndWord = function(regexp, excludes, callback) {
-	model.Word.find({text:regexp}).exec(function(err, result) {
+	//Busco en RAW ya que de la frase viene sin acentos
+	model.Word.find({raw:regexp}).exec(function(err, result) {
 		//tengo que armar mi array para el "sorteo"
 		if ( result.length == 0 ) {
 			callback(null);
