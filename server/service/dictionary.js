@@ -40,10 +40,11 @@ exports.define = function(word, callback) {
             //Solo la primera definicion
             
             var defs = def.match(";1.*:(.*)");
+            // console.log("DEFS:",defs);
             
             if ( defs ) {
                 // console.log("DEFS", defs);
-                var first = defs[1];
+                var first = defs[1]; //.substr(2)
 
                 //le saco un espacio que siempre hay
                 first = first.substr(1);

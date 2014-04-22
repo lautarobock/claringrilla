@@ -30,6 +30,10 @@ define([], function() {
 		$scope.orderSil = function(obj) {
 			return obj;
 		};
+
+		$scope.parseWiki = function(value) {
+			if ( value) return value.wiki2html();
+		};
 	});
 
 });

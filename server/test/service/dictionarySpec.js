@@ -7,19 +7,28 @@ describe("dictionary.js", function() {
 
 		dictionary.define("casa", function(err, definition) {
 			
-			expect(definition).toBe('{{ucf|edificación}} destinada a [[vivienda]]. ');
+			expect(definition.trim()).toBe('{{ucf|edificación}} destinada a [[vivienda]].');
 
 	        dictionary.define("herbívoro", function(err, definition) {
 				
-				expect(definition).toBe('Que se alimenta de [[vegetal]]es de cualquier tipo');
+				expect(definition.trim()).toBe('Que se alimenta de [[vegetal]]es de cualquier tipo');
 
 				dictionary.define("coco", function(err, definition) {
-					expect(definition).toBe('(\'\'Cocos nucifera\'\') [[palmera|Palmera]] [[pantropical]], única de su género, que crece en [[hábitat]]s [[arenoso]]s y [[salino]]s. Alcanza los 30 m de altura, con [[hoja]]s pinnadas de hasta 6 m de largo. Se aprovecha extensamente, utilizándose la [[fibra]] de sus hojas para fuertes [[tejido]]s y sobre todo la [[pulpa]] de su [[fruto]], una [[drupa]] fibrosa, en alimentación');
+					expect(definition.trim()).toBe('{{árbol}}: (\'\'Cocos nucifera\'\') [[palmera|Palmera]] [[pantropical]], única de su género, que crece en [[hábitat]]s [[arenoso]]s y [[salino]]s. Alcanza los 30 m de altura, con [[hoja]]s pinnadas de hasta 6 m de largo. Se aprovecha extensamente, utilizándose la [[fibra]] de sus hojas para fuertes [[tejido]]s y sobre todo la [[pulpa]] de su [[fruto]], una [[drupa]] fibrosa, en alimentación');
 
 					done();	        	
 		        });       	
 	        });
 		});
+
+		//salsifí || echador (Ver URL)
+		// console.log("define: salsifí")
+		// dictionary.define("salsifí", function(err, definition) {
+		// 	console.log("err:", err);
+		// 	console.log("Definicion:", definition);
+		// 	done();
+		// });
+			
 		
 	});
 
