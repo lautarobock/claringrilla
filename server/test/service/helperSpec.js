@@ -112,7 +112,7 @@ describe("grill.js", function() {
         var regexp = new RegExp("^..l..r");
         helper.getRndWord(regexp, [], function(word) {
             // console.log("Word", word);
-            expect(word).toBe("Palabra 2");
+            expect(word.text).toBe("Palabra 2");
             done();
         });
     });
@@ -148,9 +148,9 @@ describe("grill.js", function() {
         var pelo = 0;
         var polo = 0;
         for(var i=0; i<array.length; i++) {
-            if ( array[i] == "Casa") casa++;
-            if ( array[i] == "Pelo") pelo++;
-            if ( array[i] == "Polo") polo++;
+            if ( array[i].text == "Casa") casa++;
+            if ( array[i].text == "Pelo") pelo++;
+            if ( array[i].text == "Polo") polo++;
         }
         expect(casa).toBe(5);
         expect(pelo).toBe(4);
@@ -158,6 +158,23 @@ describe("grill.js", function() {
         done();
     });
 
+    it("Should generate random phrase position", function(done) {
+
+        // var max = 6;
+        for ( var i=0;i<10;i++) {
+            for ( var max=4; max<=8; max++ ) {
+                var pos = helper.generatePos(max);
+                // console.log("POS:", pos);
+                expect(pos.col1).toBeDefined();
+                expect(pos.col2).toBeDefined();
+                expect(pos.col1<(pos.col2-1)).toBeTruthy();
+                expect(pos.col2<max).toBeTruthy();
+            }   
+        }
+        
+        done();
+
+    });
 
 
     

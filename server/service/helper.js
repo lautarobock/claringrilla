@@ -73,11 +73,21 @@ exports.buildChoices = function(result) {
 	for( var i=0; i<result.length; i++ ) {
 		var base1Frec = Math.round(result[i].frecuency||0)+1;
 		for( var j=0; j<base1Frec; j++ ) {
-			choices.push(result[i].text);
+			choices.push(result[i]);
 		}
 	}
 	return choices;
 }
+
+exports.generatePos = function(max) {
+	var res = {
+		col1:null,
+		col2:null
+	};
+	res.col1 = exports.getRandomInt(0,max-3);
+	res.col2 = exports.getRandomInt(res.col1+2,max-1);
+	return res;
+};
 
 
 exports.generateGrill = function(mainCb) {
@@ -85,13 +95,16 @@ exports.generateGrill = function(mainCb) {
 	
 
 	var onPhrase = function(phrases) {
-		var col1 = 2;
-		var col2 = 5;
+		var pos = exports.generatePos(6);
+		var col1 = pos.col1;
+		var col2 = pos.col2;
 		phraseHelper = new exports.PhraseHelper(phrases.quotes[0],col1,col2);
 
 		var wordsCount = phraseHelper.availableWords();
 
 		var words = [];
+
+		var frecuencies = [];
 
 		var definitions = [];
 
@@ -103,19 +116,19 @@ exports.generateGrill = function(mainCb) {
 
 		var callback = function(word, definition) {
 
-			if ( !word || excludes.indexOf(word) != -1 ) {
+			if ( !word || excludes.indexOf(word.text) != -1 ) {
 				phrase.randomList(function(phrases) {
 					onPhrase(phrases);
 				});
 				return;
 			} else if ( !definition ) {
-				console.log("Busco definicion para:", word);
-				dictionary.define(word, function(err, newDef) {
+				console.log("Busco definicion para:", word.text);
+				dictionary.define(word.text, function(err, newDef) {
 					if ( !err ) {
 						console.log("Definicion:", newDef);
 						callback(word, newDef);
 					} else {
-						excludes.push(word);
+						excludes.push(word.text);
 						var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
 						exports.getRndWord(regExp, words, callback);
 					}
@@ -126,7 +139,8 @@ exports.generateGrill = function(mainCb) {
 			i++;
 
 			// console.log("add word", word);
-			words.push(word);
+			words.push(word.text);
+			frecuencies.push(word.frecuency||0);
 			definitions.push(definition);
 
 			if ( i<wordsCount) {
@@ -134,14 +148,17 @@ exports.generateGrill = function(mainCb) {
 				// console.log("regexp",regExp);
 				exports.getRndWord(regExp, words, callback);	
 			} else {
+				var avgFrecuency = 0;
 
 				for( var k = 0; k<words.length; k++ ) {
+					avgFrecuency += frecuencies[k];
 					// console.log("word", words[k]);
 					var sils = dictionary.splitSyllables(words[k]);
 					for( var l = 0; l<sils.length; l++ ) {
 						syllables.push(sils[l]);
 					}
 				}
+				avgFrecuency = avgFrecuency/words.length;
 				var grill = {
 					matrix: words,
 					definitions: definitions,
@@ -149,9 +166,11 @@ exports.generateGrill = function(mainCb) {
 					phraseCol1: col1,
 					phraseCol2: col2,
 					phrase: phrases.quotes[0],
-					author: phrases.author
-
+					author: phrases.author,
+					avgFrecuency: avgFrecuency,
+					frecuencies: frecuencies
 				}
+
 				mainCb(grill);
 			}
 		}

@@ -1,16 +1,23 @@
 <!-- <table border="1" style="border-collapse: collapse;"> -->
 <div class="row" style="margin-bottom:2em">
-	<div class="col-md-12">
+	<div class="col-md-6">
 		Una frase de: <strong>{{grill.author}}</strong>
+	</div>
+	<div class="col-md-6" title="{{grill.avgFrecuency}}">
+		<!-- max frecuency 1686 -->
+		Dificultad: <strong>{{(1-grill.avgFrecuency/500)*100|number:1}}%</strong>
 	</div>
 </div>
 <div class="row">
 	<div class="col-md-6">
 		<table class="table table-striped table-bordered table-condensed">
 			<tr ng-repeat="row in matrix">
-				<th style="width:2em">{{$index+1}}</th>
+				<th style="width:2em" title="{{grill.frecuencies[$index]}}">{{$index+1}}</th>
 				<td style="text-align:center;width:2em" ng-repeat="letter in row track by $index" ng-class="{'bold-phrase':isPhrase($index)}"><span>
 					<input maxlength="1" style="padding: 5px 5px;text-align: center;" type="text" class="form-control input-sm" ng-model="letter"/>
+				</td>
+				<td style="display:none">
+					{{grill.frecuencies[$index]}}
 				</td>
 			</tr>
 		</table>
@@ -63,7 +70,7 @@
 				</tr>
 			</table> -->
 			<table class="table table-striped table-bordered table-condensed">
-				<tr ng-repeat="row in grill.matrix">
+				<tr ng-repeat="row in grill.matrix track by $index">
 					<th style="width:2em">{{$index+1}}</th>
 					<td>
 						{{row}}

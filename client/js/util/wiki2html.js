@@ -55,12 +55,12 @@ function wiki2html(s) {
 
         .replace(/(?:^|\n)[ ]{2}(.*)+/g, function (m, l) { // blockquotes
             if (l.match(/^\s+$/)) return m;
-            return '<blockquote>' + l + '</pre>';
+            return '<blockquote>' + l + '</span>';
         })
         
         .replace(/((?:^|\n)[ ]+.*)+/g, function (m) { // code
             if (m.match(/^\s+$/)) return m;
-            return '<pre>' + m.replace(/(^|\n)[ ]+/g, "$1") + '</pre>';
+            return '<span>' + m.replace(/(^|\n)[ ]+/g, "$1") + '</span>';
         })
 
         .replace(/(?:^|\n)([=]+)(.*)\1/g, function (m, l, t) { // headings

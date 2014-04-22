@@ -44,10 +44,11 @@ exports.define = function(word, callback) {
             
             if ( defs ) {
                 // console.log("DEFS", defs);
-                var first = defs[1]; //.substr(2)
+                // var first = defs[1]; //.substr(2)
+                var first = defs[0].substr(defs[0].indexOf(":")+1);
 
                 //le saco un espacio que siempre hay
-                first = first.substr(1);
+                first = first;
                 
                 // console.log(word, first);            
 
