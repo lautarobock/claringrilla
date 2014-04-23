@@ -76,7 +76,7 @@ function wiki2html(s) {
 
         .replace(/(?:^|\n)[ ]{2}(.*)+/g, function (m, l) { // blockquotes
             if (l.match(/^\s+$/)) return m;
-            return '<blockquote>' + l + '</span>';
+            return l; //'<blockquote>' +  + '</span>'
         })
         
         .replace(/((?:^|\n)[ ]+.*)+/g, function (m) { // code
@@ -94,7 +94,7 @@ function wiki2html(s) {
         })
     
         .replace(/''(.*?)''/g, function (m, l) { // italic
-            return '<em>' + l + '</em>';
+            return l; //'<em>' +  + '</em>'
         })
     
         .replace(/[^\[](http[^\[\s]*)/g, function (m, l) { // normal link

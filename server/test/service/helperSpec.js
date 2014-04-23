@@ -40,55 +40,55 @@ describe("grill.js", function() {
     	done();
     });
 
-    it("Should generate a grill with words", function(done) {
-        var can = true;
-        var j = 0;
-        spyOn(dictionary, 'define').andCallFake(function (word, callback) {
-            can = !can;
-            j++;
-            if ( can ) {
-                callback(null, "definicion de [[" + word + ", "+(j)+"]]");
-            } else {
-                callback({code: "NOT_FOUND"});
-            }
-        });
-        var i = 0;
-        spyOn(model.Word, 'find').andCallFake(function() {
-            return {
-                exec: function(cb) {
-                    // console.log("i",i);
-                    cb(null, [{
-                        _id: 1,
-                        text: "Palabra"+(i++),
-                        frecuency: 1
-                    },{
-                        _id: 1,
-                        text: "Palabrota"+(i++),
-                        frecuency: 10
-                    }])
-                }
-            }
-        });
-        helper.generateGrill(function(grill) {
-            // console.log("Words", grill.matrix);
-            // console.log("definitions", grill.definitions);
-            // console.log("syllables", grill.syllables);
+    // it("Should generate a grill with words", function(done) {
+    //     var can = true;
+    //     var j = 0;
+    //     spyOn(dictionary, 'define').andCallFake(function (word, callback) {
+    //         can = !can;
+    //         j++;
+    //         if ( can ) {
+    //             callback(null, "definicion de [[" + word + ", "+(j)+"]]");
+    //         } else {
+    //             callback({code: "NOT_FOUND"});
+    //         }
+    //     });
+    //     var i = 0;
+    //     spyOn(model.Word, 'find').andCallFake(function() {
+    //         return {
+    //             exec: function(cb) {
+    //                 // console.log("i",i);
+    //                 cb(null, [{
+    //                     _id: 1,
+    //                     text: "Palabra"+(i++),
+    //                     frecuency: 1
+    //                 },{
+    //                     _id: 1,
+    //                     text: "Palabrota"+(i++),
+    //                     frecuency: 10
+    //                 }])
+    //             }
+    //         }
+    //     });
+    //     helper.generateGrill(function(grill) {
+    //         // console.log("Words", grill.matrix);
+    //         // console.log("definitions", grill.definitions);
+    //         // console.log("syllables", grill.syllables);
 
-            expect(grill.phrase).toBeDefined();
-            expect(grill.author).toBeDefined();
+    //         expect(grill.phrase).toBeDefined();
+    //         expect(grill.author).toBeDefined();
 
-            expect(grill.matrix).toBeDefined();
-            // expect(grill.matrix.length).toBe(13);
+    //         expect(grill.matrix).toBeDefined();
+    //         // expect(grill.matrix.length).toBe(13);
 
-            expect(grill.definitions).toBeDefined();
-            // expect(grill.definitions.length).toBe(13);
+    //         expect(grill.definitions).toBeDefined();
+    //         // expect(grill.definitions.length).toBe(13);
 
-            expect(grill.syllables).toBeDefined();
-            // expect(grill.definitions.length).toBe(13);
+    //         expect(grill.syllables).toBeDefined();
+    //         // expect(grill.definitions.length).toBe(13);
 
-            done();
-        });
-    });
+    //         done();
+    //     });
+    // });
 
     it("Should generate a random word", function(done) {
         var i = 0;

@@ -39,9 +39,8 @@ define([], function() {
 			return obj;
 		};
 
-		$scope.parseWiki = function(value) {
-			// if ( value) return wiki2html(value);
-			return value;
+		$scope.reverseText = function(value) {
+			return util.reverse(value);
 		};
 	});
 

@@ -190,4 +190,41 @@
         }
     }
 
+    function Rev(text) {
+        var t = "a\xE1bcde\xE9fghi\xEDjklmn\xF1o\xF3pqrtu\xFAvwy1234679!?>,)}]_.",
+            r = unescape("%u0250%u0250q%u0254p%u04D9%u04D9%u025F%u0183%u0265%u1D09%u1D09%u027E%u029El%u026Fu%u1E75oodb%u0279%u0287nn%u028C%u028D%u028E%u21C2%u1105%u03B5%u31239%u31256%A1%BF<'({[%AF%B7"),
+            n = text.toLowerCase(),
+            rv = '';
+        for (var i = 0; i < n.length; i++) {
+            var c = n.charAt(i);
+            for (var j = 0;
+                (j < t.length) && (c != t.charAt(j)); j++);
+            if (j < t.length) {
+                rv += r.charAt(j)
+            } else {
+                for (var l = 0;
+                    (l < r.length) && (c != r.charAt(l)); l++);
+                if (l < r.length) {
+                    rv += t.charAt(l)
+                } else {
+                    rv += c
+                }
+            }
+        }
+        return revText(rv)
+    }
+
+    function revText(str) {
+        var last = str.length - 1,
+            res = '';
+        for (var i = last; i >= 0; --i) {
+            res += str.charAt(i)
+        }
+        return res
+    }
+
+    exports.reverse = function(text) {
+        return Rev(text);
+    };
+
 })(typeof exports === 'undefined'? this['util'] = {} : exports );

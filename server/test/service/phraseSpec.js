@@ -48,21 +48,21 @@ describe("phrase.js", function() {
 	// 		done();
 	// 	});
 
-	it("Should retrive a phrases of 19633", function(done) {
+	// it("Should retrive a phrases of 19633", function(done) {
 
-		phrase.listFrom("19633",function(err, phrases) {
+	// 	phrase.listFrom("19633",function(err, phrases) {
 			
-			// console.log("length: ",phrases.length);
-			console.log("phrases: ",phrases);
-			console.log("phrases(opt): ",helper.beautifyPhrase(phrases.quotes[0]));
-			// expect(phrases.length).toBe(8);
+	// 		// console.log("length: ",phrases.length);
+	// 		console.log("phrases: ",phrases);
+	// 		console.log("phrases(opt): ",helper.beautifyPhrase(phrases.quotes[0]));
+	// 		// expect(phrases.length).toBe(8);
 			
-			// expect(phrases).toEqual([]);
+	// 		// expect(phrases).toEqual([]);
 
-			done();
-		});
+	// 		done();
+	// 	});
 		
-	});
+	// });
 
 	// it("Should retrive a random phrases", function(done) {
 
