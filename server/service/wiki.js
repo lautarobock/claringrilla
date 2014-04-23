@@ -27,8 +27,29 @@ function wiki2html(s) {
             return '<' + type + '><li>' + m.replace(/^\n/, '').split(/\n/).join('</li><li>') + '</li></' + type + '>';
         });
     }
+
+    /**
+    * Aplicacion de templates de wiktionary de reemplazo simple.
+    */
+    function applySimpleTemplates(value) {
+        var templates = {};
+
+        templates['participio'] = 'Participio de ';
+        templates['sustantivo de verbo'] = 'Acción o efecto de ';
+        templates['adverbio de adjetivo'] = 'De un modo ';
+        templates['adjetivo de sustantivo'] = 'Que pertenece o concierne a '
+
+        for ( var k in templates ) {
+            var tmpl = templates[k];
+            value = value.replace(new RegExp("\\{\\{"+k+"\\|(.*?)\\}\\}","g"), function(m,l) { //Template 'participio'
+                return tmpl + l.split('|')[0];
+            });
+        }
+
+        return value;
+    }
     
-    return list(s
+    return list(applySimpleTemplates(s
         
         /* BLOCK ELEMENTS */
         .replace(/(?:^|\n+)([^# =\*<].+)(?:\n+|$)/gm, function (m, l) {
@@ -88,7 +109,8 @@ function wiki2html(s) {
         .replace(/\{\{plm\|(.*?)\}\}/g, function(m,l) { //Transclusion of ufc tempalte (Uppercase fist characater)
             return (""+l[0]).toUpperCase() + l.substr(1);
         })
-    ); 
+
+    )); 
 }
     
 exports.wiki2html = wiki2html;
