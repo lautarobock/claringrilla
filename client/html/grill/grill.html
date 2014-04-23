@@ -1,4 +1,4 @@
-<div ng-hide="grill._id" class="alert alert-info">
+<div ng-hide="grill._id" class="alert alert-info hidden-print">
 	<span ng-if="loadRandom">
 		Generando grilla aleatoriamente <span class="glyphicon glyphicon-refresh"></span>
 	</span>
@@ -7,7 +7,7 @@
 	</span>
 </div>
 <div ng-show="grill._id">
-<div class="row">
+<div class="row hidden-print">
 	<div class="col-md-12">
 	    <a href="/html" class="btn btn-success btn-sm" ng-click="showResult=!showResult">
 	        Nueva Grilla <span class="glyphicon glyphicon-refresh"></span>
@@ -64,8 +64,8 @@
 </div>
 
 <!-- Table with results -->
-<button style="margin-top: 2em;" ng-init="showResult=false" type="button" class="btn btn-sm btn-danger" ng-click="showResult=!showResult">Ver Resultado</button>
-<div ng-show="showResult">
+<button style="margin-top: 2em;" ng-init="showResult=false" type="button" class="btn btn-sm btn-danger hidden-print" ng-click="showResult=!showResult">Ver Resultado</button>
+<div ng-show="showResult" class="hidden-print">
 	<div class="row" style="margin-bottom:2em;">
 		<div class="col-md-12">
 			Frase: <i><span ng-bind-html="parseWiki(grill.phrase)"></span></i>
@@ -74,16 +74,6 @@
 	</div>
 	<div class="row">
 		<div class="col-md-6">
-			<!-- <table class="table table-striped table-bordered table-condensed">
-				<tr ng-repeat="row in grill.matrix">
-					<th style="width:2em">{{$index+1}}</th>
-					<td style="text-align:center;width:2em" ng-repeat="letter in row track by $index" ng-class="{'bold-phrase':isPhrase($index)}">
-						<span>
-							<input maxlength="1" type="text" class="form-control input-sm" ng-model="letter"/>
-						</span>
-					</td>
-				</tr>
-			</table> -->
 			<table class="table table-striped table-bordered table-condensed">
 				<tr ng-repeat="row in grill.matrix track by $index">
 					<th style="width:2em">{{$index+1}}</th>
@@ -94,16 +84,21 @@
 			</table>
 		</div>
 	</div>
-	<!-- <div class="col-md-6">
-		<table class="table table-striped table-bordered table-condensed">
-			<tr ng-repeat="definition in grill.definitions">
-				<th style="width:2em">{{$index+1}}</th>
-				<td>
-					{{definition}}
-				</td>
-			</tr>
-		</table>
-	</div> -->
+</div>
+<div class="visible-print">
+	<div class="row" style="margin-bottom:2em;margin-top:2em">
+		<div class="col-md-12">
+			Frase: <i><span ng-bind-html="parseWiki(grill.phrase)"></span></i>
+			- <strong>{{grill.author}}</strong>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<span ng-repeat="row in grill.matrix track by $index">
+				{{$index+1}}) {{row}} - 
+			</span>
+		</div>
+	</div>
 </div>
 <footer style="margin-top:3em">
 	link permanente: 
