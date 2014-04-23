@@ -7,32 +7,15 @@
   Can extend String or be used stand alone - just change the flag at the top of the script.
 */
 
-(function () {
-    
-var extendString = true;
 
-if (extendString) {
-    String.prototype.wiki2html = wiki2html;
-    String.prototype.iswiki = iswiki;
-} else {
-    window.wiki2html = wiki2html;
-    window.iswiki = iswiki;
-}
 
 // utility function to check whether it's worth running through the wiki2html
 function iswiki(s) {
-    if (extendString) {
-        s = this;
-    }
-
     return !!(s.match(/^[\s{2} `#\*='{2}]/m));
 }
 
 // the regex beast...
 function wiki2html(s) {
-    if (extendString) {
-        s = this;
-    }
     
     // lists need to be done using a function to allow for recusive calls
     function list(str) {
@@ -50,7 +33,7 @@ function wiki2html(s) {
         /* BLOCK ELEMENTS */
         .replace(/(?:^|\n+)([^# =\*<].+)(?:\n+|$)/gm, function (m, l) {
             if (l.match(/^\^+$/)) return l;
-            return "\n<p>" + l + "</p>\n";
+            return l; //<p>+l+</p>
         })
 
         .replace(/(?:^|\n)[ ]{2}(.*)+/g, function (m, l) { // blockquotes
@@ -77,13 +60,13 @@ function wiki2html(s) {
         })
     
         .replace(/[^\[](http[^\[\s]*)/g, function (m, l) { // normal link
-            return '<a href="' + l + '">' + l + '</a>';
+            return '' + l + '';
         })
     
         .replace(/[\[](http.*)[!\]]/g, function (m, l) { // external link
             var p = l.replace(/[\[\]]/g, '').split(/ /);
             var link = p.shift();
-            return '<a href="' + link + '">' + (p.length ? p.join(' ') : link) + '</a>';
+            return '' + (p.length ? p.join(' ') : link) + '';
         })
     
         .replace(/\[\[(.*?)\]\]/g, function (m, l) { // internal link or image
@@ -94,10 +77,18 @@ function wiki2html(s) {
                 // no support for images - since it looks up the source from the wiki db :-(
                 return m;
             } else {
-                return '<a href="' + link + '">' + (p.length ? p.join('|') : link) + '</a>';
+                return '' + (p.length ? p.join('|') : link) + '';
             }
+        })
+
+        .replace(/\{\{ucf\|(.*?)\}\}/g, function(m,l) { //Transclusion of ufc tempalte (Uppercase fist characater)
+            return (""+l[0]).toUpperCase() + l.substr(1);
+        })
+
+        .replace(/\{\{plm\|(.*?)\}\}/g, function(m,l) { //Transclusion of ufc tempalte (Uppercase fist characater)
+            return (""+l[0]).toUpperCase() + l.substr(1);
         })
     ); 
 }
     
-})();
+exports.wiki2html = wiki2html;

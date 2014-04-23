@@ -32,7 +32,8 @@ define([], function() {
 		};
 
 		$scope.parseWiki = function(value) {
-			if ( value) return value.wiki2html();
+			// if ( value) return wiki2html(value);
+			return value;
 		};
 	});
 

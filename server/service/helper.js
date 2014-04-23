@@ -1,6 +1,7 @@
 var model = require("../domain/model");
 var dictionary = require("./dictionary");
 var phrase = require("./phrase");
+var wiki = require("./wiki");
 
 exports.beautifyPhrase = function (phrase) {
 	phrase = phrase.toLowerCase();
@@ -141,7 +142,7 @@ exports.generateGrill = function(mainCb) {
 			// console.log("add word", word);
 			words.push(word.text);
 			frecuencies.push(word.frecuency||0);
-			definitions.push(definition);
+			definitions.push(wiki.wiki2html(definition));
 
 			if ( i<wordsCount) {
 				var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
