@@ -23,7 +23,7 @@ define([], function() {
 				}
 			});
 		}
-		
+		$scope.loadRandom = $routeParams.id == null;
 		if ( $routeParams.id ) {
 			$scope.grill = Grill.get({_id:$routeParams.id},callback);
 		} else {

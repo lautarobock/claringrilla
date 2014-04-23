@@ -1,4 +1,20 @@
-<div class="row" style="margin-bottom:2em">
+<div ng-hide="grill._id" class="alert alert-info">
+	<span ng-if="loadRandom">
+		Generando grilla aleatoriamente <span class="glyphicon glyphicon-refresh"></span>
+	</span>
+	<span ng-if="!loadRandom">
+		Cargando grilla <span class="glyphicon glyphicon-cloud-download"></span>
+	</span>
+</div>
+<div ng-show="grill._id">
+<div class="row">
+	<div class="col-md-12">
+	    <a href="/html" class="btn btn-success btn-sm" ng-click="showResult=!showResult">
+	        Nueva Grilla <span class="glyphicon glyphicon-refresh"></span>
+	    </a>
+	</div>
+</div>
+<div class="row" style="margin-bottom:2em;margin-top:1em">
 	<div class="col-md-6">
 		Una frase de: <strong>{{grill.author}}</strong>
 	</div>
@@ -48,7 +64,7 @@
 </div>
 
 <!-- Table with results -->
-<button style="margin-top: 2em;" ng-init="showResult=false" type="button" class="btn btn-danger" ng-click="showResult=!showResult">Ver Resultado</button>
+<button style="margin-top: 2em;" ng-init="showResult=false" type="button" class="btn btn-sm btn-danger" ng-click="showResult=!showResult">Ver Resultado</button>
 <div ng-show="showResult">
 	<div class="row" style="margin-bottom:2em;">
 		<div class="col-md-12">
@@ -91,7 +107,8 @@
 </div>
 <footer style="margin-top:3em">
 	link permanente: 
-	<a href="http://infintegrill.herokuapp.com/html/#/grill/{{grill._id}}">
+	<a href="/html/#/grill/{{grill._id}}">
 		http://infintegrill.herokuapp.com/html/#/grill/{{grill._id}}
 	</a>
 </footer>
+</div>
