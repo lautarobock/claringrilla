@@ -166,13 +166,20 @@ exports.generateGrill = function(mainCb) {
 					syllables: shuffle(syllables),
 					phraseCol1: col1,
 					phraseCol2: col2,
-					phrase: phrases.quotes[0],
+					phrase: wiki.wiki2html(phrases.quotes[0]),
 					author: phrases.author,
 					avgFrecuency: avgFrecuency,
 					frecuencies: frecuencies
 				}
 
-				mainCb(grill);
+				var saved = new model.Grill(grill);
+				saved.save(function(err) {
+					console.log("err",err);
+					console.log("saved",saved);
+					mainCb(saved);
+				});
+
+				
 			}
 		}
 

@@ -84,6 +84,7 @@ define("app", [
         //Configure Routes
         $routeProvider.
             when('/grill', {templateUrl: 'grill/grill.html',   controller: 'GrillController'}).
+            when('/grill/:id', {templateUrl: 'grill/grill.html',   controller: 'GrillController'}).
             otherwise({redirectTo: '/grill'});
 
     }]);

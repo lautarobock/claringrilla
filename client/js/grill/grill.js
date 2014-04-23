@@ -2,10 +2,11 @@ define([], function() {
 
 	var grill = angular.module("grill", []);
 
-	grill.controller("GrillController", function($scope,GrillFactory) {
+	grill.controller("GrillController", function($scope,GrillFactory,Grill,$routeParams) {
 		$scope.matrix = [];
 		$scope.maxLength = 0;
-		$scope.grill = GrillFactory.random(function(grill) {
+
+		function callback(grill) {
 			angular.forEach(grill.matrix, function(word) {
 				var row = [];
 				for ( var i=0; i<word.length; i++ ) {
@@ -21,7 +22,14 @@ define([], function() {
 					$scope.maxLength = word.length;
 				}
 			});
-		});
+		}
+		
+		if ( $routeParams.id ) {
+			$scope.grill = Grill.get({_id:$routeParams.id},callback);
+		} else {
+			$scope.grill = GrillFactory.random(callback);
+		}
+		
 
 		$scope.isPhrase = function($index) {
 			return $scope.grill.phraseCol1 == $index || $scope.grill.phraseCol2 == $index;

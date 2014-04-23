@@ -13,7 +13,7 @@ exports.User = mongoose.model("User",new Schema({
 }));
 
 exports.Grill = mongoose.model("Grill", new Schema({
-	_id: String,
+	// _id: String,
 	matrix: [String],
 	definitions: [String],
 	syllables: [String],
@@ -21,7 +21,8 @@ exports.Grill = mongoose.model("Grill", new Schema({
 	phraseCol2: Number,
 	phrase: String,
 	author: String,
-	avgFrecuency: Number
+	avgFrecuency: Number,
+	frecuencies: [Number]
 }));
 
 exports.Word = mongoose.model("Word", new Schema({
