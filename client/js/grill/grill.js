@@ -2,7 +2,7 @@ define([], function() {
 
 	var grill = angular.module("grill", []);
 
-	grill.controller("GrillController", function($scope,GrillFactory,Grill,$routeParams) {
+	grill.controller("GrillController", function($scope,GrillFactory,Grill,$routeParams, pushListener) {
 		$scope.matrix = [];
 		$scope.maxLength = 0;
 
@@ -42,6 +42,19 @@ define([], function() {
 		$scope.reverseText = function(value) {
 			return util.reverse(value);
 		};
+
+		$scope.status = "";
+		function onGeneration(value) {
+			$scope.status = value;
+            console.log("GENERATION:", value);
+            $scope.$apply();
+        }
+
+		pushListener.on("GENERATION", onGeneration);
+
+        $scope.$on('$destroy',function() {
+            pushListener.off("GENERATION", onGeneration);
+        });
 	});
 
 });

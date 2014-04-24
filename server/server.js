@@ -110,3 +110,6 @@ var model = require("./domain/model");
 var server = http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));
 });
+
+var push = require("./util/push.js");
+push.initOn(server);

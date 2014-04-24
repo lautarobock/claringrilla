@@ -1,10 +1,14 @@
-<div ng-hide="grill._id" class="alert alert-info hidden-print">
-	<span ng-if="loadRandom">
-		Generando grilla aleatoriamente <span class="glyphicon glyphicon-refresh"></span>
+<div ng-hide="grill._id" class="hidden-print">
+	<span ng-if="loadRandom" class="alert alert-info">
+		Generando grilla aleatoriamente <span class="glyphicon glyphicon-refresh"></span> (puede demorar unos segundos...)
+		
+			{{status}}
+		
 	</span>
-	<span ng-if="!loadRandom">
+	<span ng-if="!loadRandom" class="alert alert-info">
 		Cargando grilla <span class="glyphicon glyphicon-cloud-download"></span>
 	</span>
+
 </div>
 <div ng-show="grill._id">
 <div class="row hidden-print">

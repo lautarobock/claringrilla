@@ -19,7 +19,11 @@ describe("wiki.js", function() {
 
 		text = wiki.wiki2html('[[cinco|Cinco]] veces [[diez]]');
 
-		expect(text).toBe("Cinco veces diez")
+		expect(text).toBe("Cinco veces diez");
+
+		text = wiki.wiki2html("[[Invento|Inventar]] un avión no es nada");
+
+		expect(text).toBe("Inventar un avión no es nada");
 
 		done();
 

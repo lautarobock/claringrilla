@@ -4,6 +4,7 @@ define("app", [
     "resources",
     "util/directives",
     "grill/grill",
+    "observer/observer",
     "gplus"
     ], function(locale, menu, resources, gplus, beer, rating) {
 
@@ -12,6 +13,7 @@ define("app", [
         'ngSanitize',
         'ui.bootstrap',
         'pascalprecht.translate',
+        'observer',
         'menu',
         'resources',
         'directives',

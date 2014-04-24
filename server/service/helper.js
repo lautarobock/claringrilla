@@ -2,9 +2,11 @@ var model = require("../domain/model");
 var dictionary = require("./dictionary");
 var phrase = require("./phrase");
 var wiki = require("./wiki");
+var push = require("../util/push");
 
 exports.beautifyPhrase = function (phrase) {
 	phrase = phrase.toLowerCase();
+	phrase = wiki.wiki2html(phrase);
 	phrase = phrase.replace('á','a');
 	phrase = phrase.replace('é','e');
 	phrase = phrase.replace('í','i');
@@ -72,7 +74,8 @@ exports.buildChoices = function(result) {
 	// console.log("buildChoices", result);
 	var choices = [];
 	for( var i=0; i<result.length; i++ ) {
-		var base1Frec = Math.round(result[i].frecuency||0)+1;
+		// var base1Frec = Math.round(result[i].frecuency||0)+1;
+		var base1Frec = 1; //Para hace mas igualitario el tema
 		for( var j=0; j<base1Frec; j++ ) {
 			choices.push(result[i]);
 		}
@@ -94,6 +97,7 @@ exports.generatePos = function(max) {
 exports.generateGrill = function(mainCb) {
 	// var phrase = "En esta comunidad, ¡yo soy la leys!";
 	
+	push.emit("GENERATION","start");
 
 	var onPhrase = function(phrases) {
 		var pos = exports.generatePos(6);
@@ -118,12 +122,14 @@ exports.generateGrill = function(mainCb) {
 		var callback = function(word, definition) {
 
 			if ( !word || excludes.indexOf(word.text) != -1 ) {
+				push.emit("GENERATION","reintentando frase");
 				phrase.randomList(function(phrases) {
 					onPhrase(phrases);
 				});
 				return;
 			} else if ( !definition ) {
 				console.log("Busco definicion para:", word.text);
+				push.emit("GENERATION","Buscando definicion");
 				dictionary.define(word.text, function(err, newDef) {
 					if ( !err ) {
 						console.log("Definicion:", newDef);
@@ -131,6 +137,7 @@ exports.generateGrill = function(mainCb) {
 					} else {
 						excludes.push(word.text);
 						var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
+						push.emit("GENERATION","Buscando palabra");
 						exports.getRndWord(regExp, words, callback);
 					}
 				});
@@ -147,6 +154,7 @@ exports.generateGrill = function(mainCb) {
 			if ( i<wordsCount) {
 				var regExp = new RegExp(phraseHelper.buildRegExpForRow(i));
 				// console.log("regexp",regExp);
+				push.emit("GENERATION","Buscando palabra");
 				exports.getRndWord(regExp, words, callback);	
 			} else {
 				var avgFrecuency = 0;
@@ -172,6 +180,8 @@ exports.generateGrill = function(mainCb) {
 					frecuencies: frecuencies
 				}
 
+				push.emit("GENERATION","finish");
+
 				var saved = new model.Grill(grill);
 				saved.save(function(err) {
 					console.log("err",err);
@@ -192,6 +202,7 @@ exports.generateGrill = function(mainCb) {
 	// 	quotes: ["La vida es sueño, y los sueños, sueños son"],
 	// 	author: "yo"
 	// };
+	push.emit("GENERATION","buscando frase");
 	phrase.randomList(function(phrases) {
 		console.log("Frase", phrases.quotes[0]);
 		console.log("Auhor", phrases.author);

@@ -20,6 +20,7 @@
 
         <link rel="stylesheet" href="../css/style.css"></link>
 
+        <script src="/socket.io/socket.io.js"></script>
         <script src="../lib/angular/angular.min.js"></script>
         <script src="../lib/angular-route/angular-route.min.js"></script>
         <script src="../lib/angular-resource/angular-resource.min.js"></script>
@@ -58,51 +59,51 @@
 
     <script type="text/javascript">
 
-        (function() {
-            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-            po.src = 'https://apis.google.com/js/plusone.js?onload=onLoadSuccess';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-        })();
+        // (function() {
+        //     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        //     po.src = 'https://apis.google.com/js/plusone.js?onload=onLoadSuccess';
+        //     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        // })();
 
-        var google_client_id = '85681441773-v06bveckr9sig8k5aqtpbi19a1ogq511.apps.googleusercontent.com';
-        var google_scope = ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'];
+        // var google_client_id = '85681441773-v06bveckr9sig8k5aqtpbi19a1ogq511.apps.googleusercontent.com';
+        // var google_scope = ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'];
 
-        //Registrar nuevo usuario
-        function googleSignIn() {
-            gapi.auth.authorize({
-                client_id: google_client_id,
-                scope: google_scope,
-                immediate:false
-            },
-            cb);
-        }
+        // //Registrar nuevo usuario
+        // function googleSignIn() {
+        //     gapi.auth.authorize({
+        //         client_id: google_client_id,
+        //         scope: google_scope,
+        //         immediate:false
+        //     },
+        //     cb);
+        // }
 
-        //Acceder con usuario existente
-        function googleLogIn() {
-            gapi.auth.authorize({
-                client_id: google_client_id,
-                scope: google_scope,
-                immediate:true
-            },
-            cb);
-        }
+        // //Acceder con usuario existente
+        // function googleLogIn() {
+        //     gapi.auth.authorize({
+        //         client_id: google_client_id,
+        //         scope: google_scope,
+        //         immediate:true
+        //     },
+        //     cb);
+        // }
 
-        function onLoadSuccess() {
-          googleLogIn()   
-        }
+        // function onLoadSuccess() {
+        //   googleLogIn()   
+        // }
 
-        function cb(authResult) {
-            function waitForNg() {
-                // console.log("Try");
-                var $scope = angular.element(document.body).scope();
-                if ( !$scope ) {
-                    setTimeout(waitForNg,500);
-                } else {
-                    $scope.$emit('g+login', authResult);
-                }
-            }
-            waitForNg();
-        }
+        // function cb(authResult) {
+        //     function waitForNg() {
+        //         // console.log("Try");
+        //         var $scope = angular.element(document.body).scope();
+        //         if ( !$scope ) {
+        //             setTimeout(waitForNg,500);
+        //         } else {
+        //             $scope.$emit('g+login', authResult);
+        //         }
+        //     }
+        //     waitForNg();
+        // }
     </script>    
   </body>
   

@@ -15,6 +15,10 @@ describe("grill.js", function() {
 
     	expect(beauty).toBe("holamundo");
 
+        beauty = helper.beautifyPhrase("[[Invento|Inventar]] un avión no es nada");
+
+        expect(beauty).toBe("inventarunavionnoesnada");
+
         done();
     });    
 
@@ -107,7 +111,7 @@ describe("grill.js", function() {
                 }
             }
         });
-        spyOn(helper,"getRandomInt").andReturn(3);
+        spyOn(helper,"getRandomInt").andReturn(1);
 
         var regexp = new RegExp("^..l..r");
         helper.getRndWord(regexp, [], function(word) {
@@ -143,7 +147,8 @@ describe("grill.js", function() {
             {text: "Polo", frecuency: 1.9},
         ];
         var array = helper.buildChoices(words);
-        expect(array.length).toBe(12);
+        // expect(array.length).toBe(12);
+        expect(array.length).toBe(3);
         var casa = 0;
         var pelo = 0;
         var polo = 0;
@@ -152,9 +157,12 @@ describe("grill.js", function() {
             if ( array[i].text == "Pelo") pelo++;
             if ( array[i].text == "Polo") polo++;
         }
-        expect(casa).toBe(5);
-        expect(pelo).toBe(4);
-        expect(polo).toBe(3);
+        // expect(casa).toBe(5);
+        // expect(pelo).toBe(4);
+        // expect(polo).toBe(3);
+        expect(casa).toBe(1);
+        expect(pelo).toBe(1);
+        expect(polo).toBe(1);
         done();
     });
 
