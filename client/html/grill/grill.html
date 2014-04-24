@@ -35,7 +35,7 @@
 			<tr ng-repeat="row in matrix">
 				<th style="width:2em" title="{{grill.frecuencies[$index]}}">{{$index+1}}</th>
 				<td style="text-align:center;width:2em" ng-repeat="letter in row track by $index" ng-class="{'bold-phrase':isPhrase($index)}"><span>
-					<input maxlength="1" style="padding: 5px 5px;text-align: center;" type="text" class="form-control input-sm" ng-model="letter"/>
+					<input maxlength="1" style="padding: 5px 5px;text-align: center;" type="text" class="form-control input-sm" ng-model="letter" id="{{row}}_{{$index}}" auto-tab-to="{{row}}_{{$index+1}}" auto-tab-value="letter"/>
 				</td>
 				<td style="display:none">
 					{{grill.frecuencies[$index]}}

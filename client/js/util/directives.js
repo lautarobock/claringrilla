@@ -155,6 +155,47 @@ define([], function() {
         };
     }]);
 
+    // directives.directive('autoTabTo', [function () {
+    //   return {
+    //     restrict: "A",
+    //     link: function (scope, el, attrs) {
+    //       el.bind('keyup', function(e) {
+    //         console.log("E",e);
+    //         if (this.value.length === this.maxLength) {
+    //           var element = document.getElementById(attrs.autoTabTo);
+    //           if (element)
+    //             element.focus();
+    //         }
+    //       });
+    //     }
+    //   }
+    // }]);
+
+    directives.directive('autoTabTo', [function () {
+        return {
+            restrict: "A",
+            scope: {
+                autoTabValue:'='
+            },
+            link: function (scope, el, attrs) {
+                scope.$watch("autoTabValue", function(value) {
+                    if ( value && value != "" ) {
+                        var element = document.getElementById(attrs.autoTabTo);
+                        if (element) element.focus();    
+                    }
+                })
+              // el.bind('keyup', function(e) {
+              //   console.log("E",e);
+              //   if (this.value.length === this.maxLength) {
+              //     var element = document.getElementById(attrs.autoTabTo);
+              //     if (element)
+              //       element.focus();
+              //   }
+              // });
+            }
+        }
+    }]);
+
 
 	return directives;
 });
