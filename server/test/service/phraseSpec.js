@@ -32,7 +32,7 @@ describe("phrase.js", function() {
 	// 		done();
 	// 	});
 		
-	// });
+	// },10000);
 
 	// it("Should retrive a phrases of 99", function(done) {
 
@@ -62,7 +62,7 @@ describe("phrase.js", function() {
 	// 		done();
 	// 	});
 		
-	// });
+	// },10000);
 
 	// it("Should retrive a random phrases", function(done) {
 
@@ -78,7 +78,7 @@ describe("phrase.js", function() {
 	// 	})
 		
 		
-	// });
+	// },10000);
 
 	
 
