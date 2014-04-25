@@ -43,7 +43,10 @@ define([], function() {
 			return util.reverse(value);
 		};
 
-		$scope.status = "";
+		$scope.status = {
+			text: "Iniciando busqueda...",
+			progress: 1
+		};
 		function onGeneration(value) {
 			$scope.status = value;
             console.log("GENERATION:", value);

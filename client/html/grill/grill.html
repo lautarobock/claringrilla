@@ -108,7 +108,7 @@
 </div>
 <footer style="margin-top:3em">
 	link permanente: 
-	<a href="http://{{grill.shortUrl}}" ng-if="grill.shortUrl">
+	<a ng-href="{{grill.shortUrl}}" ng-if="grill.shortUrl">
 		{{grill.shortUrl}}
 	</a>
 	<a href="/html/#/grill/{{grill._id}}" ng-if="!grill.shortUrl">
