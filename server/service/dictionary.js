@@ -1,75 +1,61 @@
-var http = require("http");
+// var http = require("http");
+var net = require("../util/net");
 
 exports.define = function(word, callback) {
     // console.log("Search: ", word);
+
 	var opt = {
         hostname: 'es.wiktionary.org',
-        port: 80,
-        path: '/w/api.php?format=json&action=query&titles='+word+'&prop=revisions&rvprop=content',
-        method: 'GET'
+        path: '/w/api.php?format=json&action=query&titles='+word+'&prop=revisions&rvprop=content'
     };
 
-    var msg = "";
+    net.doGet(opt).run(function(err, object) {
+        if ( err ) {
+            callback(err);
+            return;
+        }
 
-    var iReq = http.request(opt, function(iRes) {
-        iRes.setEncoding('utf8');
-        iRes.on('data', function(chunk) {
-            msg += chunk;
-        });
-        iRes.on('end', function() {
-            // console.log("msg",msg);
-            var object = eval("("+msg+")");
-            var page = null;
-            var pageKey = null;
-            for ( var k in object.query.pages ) {
-            	pageKey = k;
-            	break;
-            }
+        var page = null;
+        var pageKey = null;
+        for ( var k in object.query.pages ) {
+            pageKey = k;
+            break;
+        }
 
-            if ( pageKey == -1 ) {
-                callback({
-                    code: "NOT_FOUND",
-                    message: "No se ha encontrado la palabra"
-                })
-                return;
-            }
-            page = object.query.pages[k];
-            //Definicion completa en formato wiki
-            var def = page.revisions[0]['*'];
+        if ( pageKey == -1 ) {
+            callback({
+                code: "NOT_FOUND",
+                message: "No se ha encontrado la palabra"
+            })
+            return;
+        }
+        page = object.query.pages[k];
+        //Definicion completa en formato wiki
+        var def = page.revisions[0]['*'];
 
-            //Solo la primera definicion
+        //Solo la primera definicion
+        
+        var defs = def.match(";1.*:(.*)");
+        // console.log("DEFS:",defs);
+        
+        if ( defs ) {
+            // console.log("DEFS", defs);
+            // var first = defs[1]; //.substr(2)
+            var first = defs[0].substr(defs[0].indexOf(":")+1);
+
+            //le saco un espacio que siempre hay
+            first = first;
             
-            var defs = def.match(";1.*:(.*)");
-            // console.log("DEFS:",defs);
-            
-            if ( defs ) {
-                // console.log("DEFS", defs);
-                // var first = defs[1]; //.substr(2)
-                var first = defs[0].substr(defs[0].indexOf(":")+1);
+            // console.log(word, first);            
 
-                //le saco un espacio que siempre hay
-                first = first;
-                
-                // console.log(word, first);            
-
-                callback(null, first);    
-            } else {
-                callback({
-                    code: "NOT_FOUND",
-                    message: "No se ha encontrado la definicion"
-                })
-            }
-            
-        });
+            callback(null, first);    
+        } else {
+            callback({
+                code: "NOT_FOUND",
+                message: "No se ha encontrado la definicion"
+            })
+        }
     });
-
-    iReq.on('error', function(e) {
-        console.log('[Dictionary] problem with the request: ' + e.message);
-        callback(e)
-    });
-
-    iReq.end();
-
 };
 
 exports.splitSyllables = function( txt_fuente ) {
@@ -107,6 +93,8 @@ exports.splitSyllables = function( txt_fuente ) {
         }
     return s.split("-");
 }
+
+/* PRIVATE SECTION FOR Split Silabez */
 
 /**
         Funcion que retorna "true" o "false"

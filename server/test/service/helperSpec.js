@@ -184,7 +184,20 @@ describe("grill.js", function() {
 
     });
 
+    it("Should shortify URL", function(done) {
+        var initURL = "http://www.google.com/";
+        helper.shortUrl(initURL, function(err, shortUrl) {
+            // console.log("shortUrl", shortUrl);
 
+            helper.expandUrl(shortUrl, function(err, url) {
+                // console.log("URL", url);
+
+                expect(url).toBe(initURL);
+
+                done();
+            });
+        });
+    });
     
 
 });

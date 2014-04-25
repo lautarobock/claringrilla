@@ -22,7 +22,8 @@ exports.Grill = mongoose.model("Grill", new Schema({
 	phrase: String,
 	author: String,
 	avgFrecuency: Number,
-	frecuencies: [Number]
+	frecuencies: [Number],
+	shortUrl: String
 }));
 
 exports.Word = mongoose.model("Word", new Schema({

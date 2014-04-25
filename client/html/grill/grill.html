@@ -108,7 +108,10 @@
 </div>
 <footer style="margin-top:3em">
 	link permanente: 
-	<a href="/html/#/grill/{{grill._id}}">
+	<a href="http://{{grill.shortUrl}}" ng-if="grill.shortUrl">
+		{{grill.shortUrl}}
+	</a>
+	<a href="/html/#/grill/{{grill._id}}" ng-if="!grill.shortUrl">
 		http://infintegrill.herokuapp.com/html/#/grill/{{grill._id}}
 	</a>
 </footer>

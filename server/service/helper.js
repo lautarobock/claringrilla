@@ -3,6 +3,7 @@ var dictionary = require("./dictionary");
 var phrase = require("./phrase");
 var wiki = require("./wiki");
 var push = require("../util/push");
+var net = require("../util/net");
 
 exports.beautifyPhrase = function (phrase) {
 	phrase = phrase.toLowerCase();
@@ -92,6 +93,34 @@ exports.generatePos = function(max) {
 	res.col2 = exports.getRandomInt(res.col1+2,max-1);
 	return res;
 };
+
+exports.shortUrl = function(url, callback) {
+	net.doSSLPost({
+		hostname:'www.googleapis.com',
+		path: '/urlshortener/v1/url'
+	},{
+		longUrl: url
+	}).run(function(err, response) {
+		if ( err ) {
+			callback(err);	
+		} else {
+			callback(null, response.id);		
+		}
+	});
+};
+
+exports.expandUrl = function(shortUrl, callback) {
+	net.doSSLGet({
+		hostname:'www.googleapis.com',
+		path: '/urlshortener/v1/url?shortUrl=' + shortUrl
+	}).run(function(err, response) {
+		if ( err ) {
+			callback(err);	
+		} else {
+			callback(null, response.longUrl);		
+		}
+	});	
+}
 
 
 exports.generateGrill = function(mainCb) {
@@ -185,15 +214,22 @@ exports.generateGrill = function(mainCb) {
 					author: phrases.author,
 					avgFrecuency: avgFrecuency,
 					frecuencies: frecuencies
-				}
+				};
 
 				push.emit("GENERATION",{text:"Finalizado", progress:100});
 
 				var saved = new model.Grill(grill);
 				saved.save(function(err) {
-					// console.log("err",err);
-					// console.log("saved",saved);
-					mainCb(saved);
+
+					exports.shortUrl("http://infintegrill.herokuapp.com/html/#/grill/"+saved._id, 
+						function(err, shortUrl) {
+							saved.shortUrl = shortUrl;
+							saved.save();
+							mainCb(saved);
+					});
+
+					
+					
 				});
 
 				
